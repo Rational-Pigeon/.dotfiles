@@ -82,9 +82,6 @@ export FZF_DEFAULT_COMMAND='history'
 export FZF_DEFAULT_OPTS='--reverse --multi --ansi'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview 'echo {} | cut -d' ' -f2-'"
-export GITHUB_USERNAME=Rational-Pigeon
-export GITHUB_PASSWORD=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
-export GITHUB_TOKEN=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
 export FZF_CTRL_R_OPTS="--bind '?:toggle-preview'"# export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
