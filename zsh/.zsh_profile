@@ -1,0 +1,7 @@
+VIM="nvim"
+
+export GIT_EDITOR=$VIM
+
+addToPathFront $HOME/.local/bin
+
+bindkey -s ^f "tmux-sessioniser\n"
