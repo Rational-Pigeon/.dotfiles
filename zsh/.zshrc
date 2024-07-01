@@ -1,7 +1,14 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="dracula"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
@@ -98,19 +105,5 @@ compinit
 # Define color codes
 autoload -U colors && colors
 
-# Customize the prompt
-PROMPT='%{$fg[blue]%}%n:%{$fg[green]%}%~ %{$fg[green]%}$%{$reset_color%} '
-
-# Function to fuzzy find directories and cd into the selected one
-function fzf_cd() {
-    local depth=${1:-3}
-    local dir
-    dir=$(find ~ -type d -mindepth 1 -maxdepth $depth 2>/dev/null | fzf)
-    if [[ -n "$dir" ]]; then
-        cd "$dir"
-    fi
-}
-
-# Alias for the function
-alias fcd='fzf_cd'
-
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
