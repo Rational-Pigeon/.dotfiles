@@ -107,3 +107,19 @@ autoload -U colors && colors
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Function to fuzzy find directories and cd into the selected one
+function fzf_cd() {
+    local depth=${1:-3}
+    local dir
+    dir=$(find ~ -type d -mindepth 1 -maxdepth $depth 2>/dev/null | fzf)
+    if [[ -n "$dir" ]]; then
+        cd "$dir"
+    fi
+}
+
+# Alias for the function
+alias fcd='fzf_cd'
+
+
+
