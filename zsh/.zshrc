@@ -122,4 +122,11 @@ function fzf_cd() {
 alias fcd='fzf_cd'
 
 
+# Custom function to create a directory and change into it
+function mkdircd {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Alias for easier usage
+alias mcd='mkdircd'
 
