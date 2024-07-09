@@ -670,6 +670,110 @@ require("lazy").setup({
 	{
 		"mattn/emmet-vim",
 	},
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			"rcarriga/nvim-dap-ui",
+			"theHamsta/nvim-dap-virtual-text",
+			"nvim-neotest/nvim-nio",
+			"williamboman/mason.nvim",
+			"jayp0521/mason-nvim-dap.nvim",
+		},
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
+			local mason_dap = require("mason-nvim-dap")
+
+			-- Setup Mason and ensure js-debug is installed
+			require("mason").setup()
+			mason_dap.setup({
+				automatic_setup = true,
+				ensure_installed = { "js" }, -- Ensure js-debug is installed
+			})
+
+			-- Setup dap-ui and virtual text
+			dapui.setup()
+			require("nvim-dap-virtual-text").setup()
+
+			-- Configure DAP adapters
+			dap.adapters.node2 = {
+				type = "executable",
+				command = "node",
+				args = {
+					os.getenv("HOME")
+						.. "/.local/share/nvim/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js",
+				},
+			}
+
+			dap.configurations.javascript = {
+				{
+					type = "node2",
+					request = "launch",
+					program = "${file}",
+					cwd = vim.fn.getcwd(),
+					sourceMaps = true,
+					protocol = "inspector",
+					console = "integratedTerminal",
+				},
+			}
+
+			dap.configurations.typescript = {
+				{
+					type = "node2",
+					request = "launch",
+					program = "${workspaceFolder}/dist/${fileBasenameNoExtension}.js",
+					cwd = vim.fn.getcwd(),
+					sourceMaps = true,
+					protocol = "inspector",
+					console = "integratedTerminal",
+					outFiles = { "${workspaceFolder}/dist/**/*.js" },
+				},
+			}
+
+			-- Key mappings
+			vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
+
+			-- Eval var under cursor
+			vim.keymap.set("n", "<space>?", function()
+				dapui.eval(nil, { enter = true })
+			end)
+			vim.keymap.set("n", "<F1>", dap.continue)
+			vim.keymap.set("n", "<F2>", dap.step_into)
+			vim.keymap.set("n", "<F3>", dap.step_over)
+			vim.keymap.set("n", "<F4>", dap.step_out)
+			vim.keymap.set("n", "<F5>", dap.step_back)
+			vim.keymap.set("n", "<F13>", dap.restart)
+
+			-- Auto-open and close DAP UI
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated["dapui_config"] = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited["dapui_config"] = function()
+				dapui.close()
+			end
+		end,
+	},
+	{
+		"akinsho/toggleterm.nvim",
+		tag = "*",
+		config = function()
+			require("toggleterm").setup({
+				size = 12, -- Adjust the height here (15 lines tall)
+				open_mapping = [[<c-\>]], -- Keybinding to toggle the terminal
+				shade_filetypes = {},
+				shade_terminals = true,
+				shading_factor = "1",
+				start_in_insert = true,
+				persist_size = true,
+				direction = "horizontal",
+				close_on_exit = true,
+				shell = vim.o.shell,
+			})
+		end,
+	},
 
 	-- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
