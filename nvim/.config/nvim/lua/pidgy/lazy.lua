@@ -763,6 +763,20 @@ require("lazy").setup({
 			end
 		end,
 	},
+	-- PlantUML syntax highlighting
+	{ "aklt/plantuml-syntax" },
+
+	-- PlantUML previewer with dependencies
+	-- use PlantumlOpen to preview with browser
+	{
+		"weirongxu/plantuml-previewer.vim",
+		dependencies = { "tyru/open-browser.vim", "aklt/plantuml-syntax" },
+		config = function()
+			vim.g["plantuml_previewer#plantuml_jar_path"] = "/home/rationalpigeon/plantuml/plantuml-1.2024.6.jar"
+			vim.g["openbrowser_default_search"] = "wslview"
+		end,
+	},
+
 	{
 		"akinsho/toggleterm.nvim",
 		tag = "*",
