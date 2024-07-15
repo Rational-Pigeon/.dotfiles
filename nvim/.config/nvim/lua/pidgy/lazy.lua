@@ -388,6 +388,12 @@ require("lazy").setup({
 				-- But for many setups, the LSP (`tsserver`) will work just fine
 				tsserver = {},
 				--
+				jdtls = {
+					cmd = { "/home/rationalpigeon/.dotfiles/nvim/.config/nvim/lua/pidgy/java-lsp.sh" }, -- Use the shell script to launch the server
+					root_dir = function(fname)
+						return require("lspconfig").util.root_pattern("pom.xml", ".git")(fname) or vim.fn.getcwd()
+					end,
+				},
 
 				lua_ls = {
 					-- cmd = {...},
@@ -418,6 +424,7 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
+				"jdtls",
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
