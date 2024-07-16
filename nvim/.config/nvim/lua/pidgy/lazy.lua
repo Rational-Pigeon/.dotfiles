@@ -393,6 +393,7 @@ require("lazy").setup({
 					root_dir = function(fname)
 						return require("lspconfig").util.root_pattern("pom.xml", ".git")(fname) or vim.fn.getcwd()
 					end,
+					capabilities = capabilities,
 				},
 
 				lua_ls = {
