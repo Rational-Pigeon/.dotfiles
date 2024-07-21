@@ -81,17 +81,24 @@ require("lazy").setup({
 
 			-- Document existing key chains
 			require("which-key").register({
-				["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-				["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-				["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-				["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-				["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-				["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
-				["<leader>h"] = { name = "Git [H]unk", _ = "which_key_ignore" },
+				{ "<leader>c", group = "[C]ode" },
+				{ "<leader>c_", hidden = true },
+				{ "<leader>d", group = "[D]ocument" },
+				{ "<leader>d_", hidden = true },
+				{ "<leader>h", group = "Git [H]unk" },
+				{ "<leader>h_", hidden = true },
+				{ "<leader>r", group = "[R]ename" },
+				{ "<leader>r_", hidden = true },
+				{ "<leader>s", group = "[S]earch" },
+				{ "<leader>s_", hidden = true },
+				{ "<leader>t", group = "[T]oggle" },
+				{ "<leader>t_", hidden = true },
+				{ "<leader>w", group = "[W]orkspace" },
+				{ "<leader>w_", hidden = true },
 			})
 			-- visual mode
 			require("which-key").register({
-				["<leader>h"] = { "Git [H]unk" },
+				{ "<leader>h", desc = "Git [H]unk", mode = "v" },
 			}, { mode = "v" })
 		end,
 	},
@@ -374,10 +381,10 @@ require("lazy").setup({
 			local servers = {
 				-- clangd = {},
 				-- gopls = {},
-				pyright = {},
-				html = {},
-				svelte = {},
-				cssls = {},
+				pyright = { cabilities = capabilities },
+				html = { cabilities = capabilities },
+				svelte = { cabilities = capabilities },
+				cssls = { cabilities = capabilities },
 
 				-- rust_analyzer = {},
 				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -386,7 +393,7 @@ require("lazy").setup({
 				--    https://github.com/pmizio/typescript-tools.nvim
 				--
 				-- But for many setups, the LSP (`tsserver`) will work just fine
-				tsserver = {},
+				tsserver = { capabilities = capabilities },
 				--
 				jdtls = {
 					cmd = { "/home/rationalpigeon/.dotfiles/nvim/.config/nvim/lua/pidgy/java-lsp.sh" }, -- Use the shell script to launch the server
@@ -449,7 +456,7 @@ require("lazy").setup({
 		lazy = false,
 		keys = {
 			{
-				"<leader>af",
+				"<leader>qf",
 				function()
 					require("conform").format({ async = true, lsp_fallback = true })
 				end,
